@@ -1,0 +1,21 @@
+{
+  "name": "solvd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgustinTafura/solvd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AgustinTafura/solvd/issues"
+  },
+  "homepage": "https://github.com/AgustinTafura/solvd#readme"
+}
