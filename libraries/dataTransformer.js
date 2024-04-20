@@ -2,7 +2,7 @@ class DataTransformer {
 
     static addValues(a, b) {
         const allowedTypes = ['number', 'string', 'bigint']
-        if (allowedTypes.includes(typeof a) && allowedTypes.includes(typeof b) && /^[\d.]+$/.test(a)  && /^[\d.]+$/.test(b)) {
+        if (typeof a === typeof b && allowedTypes.includes(typeof a) && allowedTypes.includes(typeof b) && /^[\d.]+$/.test(a)  && /^[\d.]+$/.test(b)) {
             const numA = parseFloat(a);
             const numB = parseFloat(b);
     
@@ -12,7 +12,7 @@ class DataTransformer {
                 throw new Error('Addition not possible for the provided types.');
             }   
         } else {
-            throw new Error('Addition not possible for the provided types.');
+            throw new Error(' - Addition not possible for the provided types.');
         }
     }
 
