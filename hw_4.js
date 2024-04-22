@@ -1,26 +1,48 @@
-
 const person = {
-    firstName: "John",
-    lastName: "Doe",
-    age: 30,
-    email: "john.doe@example.com",
-    updateInfo: (newInfo)=>{
-        for (let prop in newInfo) {
-            if (this.hasOwnProperty(prop)) {
-                this[prop] = newInfo[prop];
-            }
-        }
-    }
-}
+    _firstName: "John",
+    _lastName: "Doe",
+    _age: 30,
+    _email: "john.doe@example.com",
+};
 
 Object.defineProperties(person, {
-firstName: {writable: false},
-lastName: {writable: false},
-age: {writable: false},
-email: {writable: false}
+    firstName: {
+        get() {
+            return this._firstName;
+        },
+        enumerable: true
+    },
+    lastName: {
+        get() {
+            return this._lastName;
+        },
+        enumerable: true
+    },
+    age: {
+        get() {
+            return this._age;
+        },
+        enumerable: true
+    },
+    email: {
+        get() {
+            return this._email;
+        },
+        enumerable: true
+    }
 });
 
-console.log(person)
+person.updateInfo = function(newInfo) {
+    for (let prop in newInfo) {
+        if (this.hasOwnProperty(`_${prop}`)) {
+            this[`_${prop}`] = newInfo[prop];
+        }
+    }
+};
+
+console.log(444, person)
 
 person.updateInfo({ firstName: "Jane", age: 32 })
-console.log(person)
+console.log(person.firstName)
+person._firstName = "lala"
+console.log(person.firstName)
