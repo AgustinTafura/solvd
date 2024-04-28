@@ -176,19 +176,40 @@ console.log(person.age)
 
 // Task 6:
 function deepCopy(obj) {
-    // Verificar si el objeto es de tipo primitivo
     if (typeof obj !== 'object' || obj === null) {
-        return obj; // Si es primitivo, devolver el valor directamente
+        return obj;
     }
 
-    // Crear un nuevo objeto o array según el tipo del objeto original
     const copy = Array.isArray(obj) ? [] : {};
 
-    // Recorrer todas las propiedades del objeto original
     for (let key in obj) {
-        // Clonar recursivamente las propiedades anidadas
         copy[key] = deepCopy(obj[key]);
     }
 
     return copy;
 }
+
+
+// Task 7
+function validateObject(obj, schema) {
+    if (typeof obj !== 'object' || typeof schema !== 'object' || obj === null || schema === null) {
+        throw new Error('Both obj and schema must be objects');
+    }
+
+    for (let key in schema) {
+        if (obj.hasOwnProperty(`_${key}`)) {
+            if (typeof obj[`_${key}`] !== schema[key]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+const schema = {
+    firstName: 'string',
+    age: 'number',
+    email: 'string'
+};
+
+console.log(validateObject(person, schema)); 
