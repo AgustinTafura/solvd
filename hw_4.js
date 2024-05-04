@@ -129,7 +129,7 @@ function createImmutableObject(obj) {
         return obj;
     }
 
-    const immutableObj = {};
+    const immutableObj = Array.isArray(obj) ? [] : {};
 
     for (let prop in obj) {
         const descriptor = Object.getOwnPropertyDescriptor(obj, prop);
@@ -147,6 +147,7 @@ function createImmutableObject(obj) {
 
     return immutableObj;
 }
+
 
 // Task 5:
 function observeObject(obj, callback) {
@@ -212,4 +213,22 @@ const schema = {
     email: 'string'
 };
 
-console.log(validateObject(person, schema)); 
+console.log(validateObject(person, schema));
+
+
+
+//testing Task 4
+const originalObject = {
+    name: "Example Object",
+    details: {
+        numbers: [1, 2, 3]
+    }
+};
+console.log('--------------------------------------------------------------------')
+const immObj = createImmutableObject(originalObject)
+console.log(originalObject.details.numbers)
+console.log(immObj.details.numbers)
+immObj.details.numbers.push(100);
+immObj.details.numbers[1] = 10; // it should return an error, because immObj returns a new object with all its properties made read-only and non-writable
+console.log(originalObject.details.numbers)
+console.log(immObj.details.numbers)
