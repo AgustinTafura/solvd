@@ -63,44 +63,46 @@ function promiseAllSettled(promises) {
 const promises2 = [
     Promise.resolve(1),
     Promise.reject("Error occurred"),
-    Promise.resolve(3),
-];
-
-promiseAllSettled(promises2).then((results) => {
-    console.log("Todas las promesas se han establecido:", results);
-});
+    Promise.resolve(3)
+  ];
+  
+  promiseAllSettled(promises2)
+    .then(results => {
+      console.log("All promises settled:", results);
+      // Expected: [{ status: 'fulfilled', value: 1 },
+      //            { status: 'rejected', reason: 'Error occurred' },
+      //            { status: 'fulfilled', value: 3 }]
+    });
 
 function chainPromises(functionsArray) {
     let promiseChain = Promise.resolve();
 
     for (const func of functionsArray) {
-        promiseChain.then(val=> console.log(1, val))
         promiseChain = promiseChain.then(func);
     }
 
     return promiseChain;
 }
 
-// Ejemplo de uso
 function asyncFunction1() {
     return Promise.resolve("Result from asyncFunction1");
-}
-
-function asyncFunction2(data) {
+  }
+  
+  function asyncFunction2(data) {
     return Promise.resolve(data + " - Result from asyncFunction2");
-}
-
-function asyncFunction3(data) {
+  }
+  
+  function asyncFunction3(data) {
     return Promise.resolve(data + " - Result from asyncFunction3");
-}
-
-const functionsArray = [asyncFunction1, asyncFunction2, asyncFunction3];
-
-chainPromises(functionsArray)
+  }
+  
+  const functionsArray = [asyncFunction1, asyncFunction2, asyncFunction3];
+  
+  chainPromises(functionsArray)
     .then(result => {
-        console.log("Resultado de la cadena de promesas:", result);
-        // Esperado: "Result from asyncFunction1 - Result from asyncFunction2 - Result from asyncFunction3"
+      console.log("Chained promise result:", result);
+      // Expected: "Result from asyncFunction1 - Result from asyncFunction2 - Result from asyncFunction3"
     })
     .catch(error => {
-        console.error("Error en la cadena de promesas:", error);
+      console.error("Chained promise error:", error);
     });
