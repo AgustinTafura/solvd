@@ -104,7 +104,7 @@ function throttle(func, interval) {
 }
 
 function onScroll(event) {
-    console.log("Evento de desplazamiento:", event);
+    console.log("Event:", event);
 }
 
 const throttledScrollHandler = throttle(onScroll, 1000);
@@ -136,4 +136,4 @@ const step1 = curriedMultiply(2);
 const step2 = step1(3);
 const result = step2(4);
 
-console.log("Resultado:", result);
+console.log("Result:", result);
