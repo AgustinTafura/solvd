@@ -52,11 +52,88 @@ return a + b;
 `;
 
 console.log(code);
-function multiline(strings, ...values) {
-	console.log(strings, values)
-	const lines = strings.split('\n');
-	const numberedLines = lines.map((line, index) => `${index + 1} ${line}`);
 
-	// Unir las líneas nuevamente en una sola cadena, preservando los saltos de línea
+function multiline(strings, ...values) {
+	const result = strings.reduce((acc, str, i) => acc + str + (values[i] || ''), '');
+	const lines = result.split('\n');
+	lines[0] === '' && lines.shift();
+	lines[lines.length - 1] === '' && lines.pop();
+	const numberedLines = lines.map((line, index) => `${index + 1} ${line}`);
 	return numberedLines.join('\n');
 }
+
+// task 4
+function debounce(func, delay) {
+    let timeoutId;
+    
+    return function(...args) {
+        const context = this;
+        
+        clearTimeout(timeoutId);
+        
+        timeoutId = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
+    };
+}
+
+function debouncedSearch(query) {
+	console.log("Searching for:", query);
+}
+
+const debouncedSearchHandler = debounce(debouncedSearch, 300);
+
+const inputElement = document.getElementById("search-input");
+inputElement.addEventListener("input", event => {
+	debouncedSearchHandler(event.target.value);
+});
+
+
+//task 5
+function throttle(func, interval) {
+    let lastExecutionTime = 0;
+    
+    return function(...args) {
+        const now = Date.now();
+        
+        if (now - lastExecutionTime >= interval) {
+            func.apply(this, args);
+            lastExecutionTime = now;
+        }
+    };
+}
+
+function onScroll(event) {
+    console.log("Evento de desplazamiento:", event);
+}
+
+const throttledScrollHandler = throttle(onScroll, 1000);
+
+window.addEventListener("scroll", throttledScrollHandler);
+
+
+// task 6
+function curry(func, arity) {
+
+    function curried(...args) {
+        if (args.length >= arity) {
+            return func(...args);
+        } else {
+            return (...moreArgs) => curried(...args, ...moreArgs);
+        }
+    }
+    
+    return curried;
+}
+
+function multiply(a, b, c) {
+    return a * b * c;
+}
+
+const curriedMultiply = curry(multiply, 3);
+
+const step1 = curriedMultiply(2);
+const step2 = step1(3);
+const result = step2(4);
+
+console.log("Resultado:", result);
