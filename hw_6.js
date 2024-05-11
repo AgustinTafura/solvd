@@ -31,9 +31,13 @@ function localize(strings, ...values) {
 }
 
 //Task 2
-function highlightKeywords(temp, keyw) {
-    const regex = new RegExp(keyw.join("|"), "gi");
-    return temp.replace(regex, match => `<span class='highlight'>${match}</span>`);
+function highlightKeywords(template, keywords) {
+    return template.replace(/\${(\d)}/g, (_, index) => {
+        const keywordIndex = parseInt(index);
+        const keyword = keywords[keywordIndex];
+        console.log(111, _, index, keywordIndex, keyword)
+        return `<span class='highlight'>${keyword}</span>`;
+    });
 }
 
 const keywords = ["JavaScript", "template", "tagged"];
