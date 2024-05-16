@@ -73,6 +73,14 @@ class Cart {
     calculateTotal() {
         return this.items.reduce((total, book) => total + book.price, 0);
     }
+    /**
+     * Apply discount on the total price. (BONUS)
+     * @returns {number} The amount of percent discount.
+     */
+    applyDiscount(discountPercent) {
+        const discount = this.calculateTotal() * (discountPercent / 100);
+        return this.calculateTotal() - discount;
+    }
 }
 
 /**
@@ -137,7 +145,7 @@ console.log("Diana's order:", orderDiana);
 const userA = users[0];
 const userD = users[1];
 
-// Simulate users adding books to their cart
+// Simulate users adding and deleting books to their cart
 const cartUserA = new Cart();
 const cartUserD = new Cart();
 
@@ -153,9 +161,45 @@ cartUserD.addItem(books[4]);
 console.log("userA's cart:", cartUserA.items);
 console.log("userD's cart:", cartUserD.items);
 
+console.log("userA's total:", cartUserA.calculateTotal());
+console.log("userD's total:", cartUserD.calculateTotal());
+console.log("userD's total with discount:", cartUserD.applyDiscount(10));
+
 // Implement the process of placing an order
 const orderUserA = new Order(userA, cartUserA.items, cartUserA.calculateTotal());
-const orderUserD = new Order(userD, cartUserD.items, cartUserD.calculateTotal());
-
+const orderUserD = new Order(userD, cartUserD.items, cartUserD.applyDiscount(10));
 console.log("userA's order:", orderUserA);
 console.log("userD's order:", orderUserD);
+
+
+
+
+// BONUS
+class Bookstore {
+    /**
+     * Creates a new Bookstore instance.
+     * @param {Array<Book>} books - The list of books available in the bookstore.
+     */
+    constructor(books) {
+        this.books = books;
+    }
+
+    /**
+     * Searches for books in the bookstore based on various criteria.
+     * @param {object} criteria - The criteria to search for books (title, author, ISBN).
+     * @returns {Array<Book>} The list of books that match the search criteria.
+     */
+    searchBooks(criteria) {
+        return this.books.filter(book => {
+            return (
+                (criteria.title && book.title.toLocaleLowerCase().includes(criteria.title.toLocaleLowerCase())) ||
+                (criteria.author && book.authortoLocaleLowerCase().includes(criteria.author.toLocaleLowerCase())) ||
+                (criteria.ISBN && book.ISBNtoLocaleLowerCase().includes(criteria.ISBN.toLocaleLowerCase()))
+            );
+        });
+    }
+}
+
+const bookstore =new Bookstore(books)
+console.log("Search for 'Harry Potter':", bookstore.searchBooks({ title: "Harry Potter" }));
+console.log("Search for 'the':", bookstore.searchBooks({ title: "the" }));
