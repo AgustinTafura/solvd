@@ -163,6 +163,7 @@ console.log("userD's cart:", cartUserD.items);
 
 console.log("userA's total:", cartUserA.calculateTotal());
 console.log("userD's total:", cartUserD.calculateTotal());
+// BONUS - applying discounts
 console.log("userD's total with discount:", cartUserD.applyDiscount(10));
 
 // Implement the process of placing an order
@@ -200,6 +201,38 @@ class Bookstore {
     }
 }
 
+// BONUS: searching for books
 const bookstore =new Bookstore(books)
 console.log("Search for 'Harry Potter':", bookstore.searchBooks({ title: "Harry Potter" }));
 console.log("Search for 'the':", bookstore.searchBooks({ title: "the" }));
+
+
+
+// BONUS: payment handling
+/**
+ * Represents the payment processing system.
+ */
+class Payment {
+    /**
+     * Processes a credit card payment.
+     * @param {string} cardNumber - The credit card number.
+     * @param {string} expiryDate - The expiration date of the card.
+     * @param {string} cvv - The CVV of the card.
+     * @param {number} amount - The amount to be charged.
+     * @returns {boolean} - Returns true if the payment is successful, otherwise false.
+     */
+    processCreditCardPayment(cardNumber, expiryDate, cvv, amount) {
+        console.log(`Processing credit card payment of $${amount}...`);
+        // Logic to process credit card payment
+        // ...
+        // Simulate payment success
+        return true;
+    }
+}
+const paymentProcessor = new Payment();
+const cardPaymentSuccess = paymentProcessor.processCreditCardPayment('1234-5678-8765-4321', '01/25', '123', orderUserA.totalPrice);
+if (cardPaymentSuccess) {
+    console.log('Credit card payment successful');
+} else {
+    console.log('Credit card payment failed');
+}
