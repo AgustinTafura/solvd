@@ -419,13 +419,33 @@ class LinkedList {
 
     // Print the list values
     print() {
-        let current = this.head;
-        const values = [];
-        while (current !== null) {
-            values.push(current.value);
-            current = current.next;
+        if (!this.hasCycle()) {
+            let current = this.head;
+            const values = [];
+            while (current !== null) {
+                values.push(current.value);
+                current = current.next;
+            }
+            console.log(values.join(' -> '));
         }
-        console.log(values.join(' -> '));
+    }
+
+    // Detect if the list has a cycle using Floyd's Cycle Detection Algorithm
+    // (https://www.geeksforgeeks.org/floyds-cycle-finding-algorithm/)
+    hasCycle() {
+        let slow = this.head;
+        let fast = this.head;
+
+        while (fast !== null && fast.next !== null) {
+            slow = slow.next; // move slow pointer by one step
+            fast = fast.next.next; // move fast pointer by two steps
+
+            if (slow === fast) {
+                return true; // cycle detected
+            }
+        }
+
+        return false; // no cycle
     }
 }
 
@@ -525,9 +545,32 @@ console.log("Current Min after second pop:", minMaxStack.getMin()); // Outputs: 
 console.log("Current Max after second pop:", minMaxStack.getMax()); // Outputs: 5
 console.log('---------------------------------------------------------------------------------------------------------')
 console.log('------------------------------------Example - Binary Search Tree - isBST---------------------------------')
+
+
 // Check if the tree is a BST
 console.log(777, binaryTree.isBST()) // Outputs: true
 // Create a non-BST by breaking the BST property
 binaryTree.root.left.right.value = 11;
 // Check if the tree is still a BST
 console.log(888, binaryTree.isBST()); // Outputs: false
+
+
+console.log('---------------------------------------------------------------------------------------------------------')
+console.log('------------------------------------Example - Linked List Cycle------------------------------------------')
+
+
+// Example
+const list2 = new LinkedList();
+list2.add(10);
+list2.add(20);
+list2.add(30);
+list2.add(40);
+list2.print(); // Outputs: 10 -> 20 -> 30 -> 40
+console.log(list2.getSize()); // Outputs: 3
+
+console.log("hasCycle",list2.hasCycle())// Outputs: true
+
+// Create a cycle for testing
+list2.head.next.next.next = list2.head;
+console.log(list2.getSize()); // Outputs: 3
+console.log("hasCycle",list2.hasCycle()); // Outputs: true
