@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 
-// Base64 URL Encode
 function base64UrlEncode(str) {
   return Buffer.from(str)
     .toString('base64')
@@ -9,7 +8,6 @@ function base64UrlEncode(str) {
     .replace(/\//g, '_');
 }
 
-// Base64 URL Decode
 function base64UrlDecode(str) {
   str = str.replace(/-/g, '+').replace(/_/g, '/');
   return Buffer.from(str, 'base64').toString();
