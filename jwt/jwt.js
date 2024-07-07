@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+import { createHmac } from 'crypto';
 
 function base64UrlEncode(str) {
   return Buffer.from(str)
@@ -13,12 +13,11 @@ function base64UrlDecode(str) {
   return Buffer.from(str, 'base64').toString();
 }
 
-function createJWT(header, payload, secret) {
+export function createJWT(header, payload, secret) {
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(payload));
 
-  const signature = crypto
-    .createHmac('sha256', secret)
+  const signature = createHmac('sha256', secret)
     .update(`${encodedHeader}.${encodedPayload}`)
     .digest('base64')
     .replace(/=/g, '')
@@ -28,11 +27,10 @@ function createJWT(header, payload, secret) {
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 }
 
-function verifyJWT(token, secret) {
+export function verifyJWT(token, secret) {
   const [encodedHeader, encodedPayload, signature] = token.split('.');
 
-  const expectedSignature = crypto
-    .createHmac('sha256', secret)
+  const expectedSignature = createHmac('sha256', secret)
     .update(`${encodedHeader}.${encodedPayload}`)
     .digest('base64')
     .replace(/=/g, '')
@@ -48,8 +46,3 @@ function verifyJWT(token, secret) {
 
   return { header, payload };
 }
-
-module.exports = {
-  createJWT,
-  verifyJWT,
-};
